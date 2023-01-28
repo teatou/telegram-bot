@@ -1,4 +1,4 @@
-module github.com/teatou/TelegramBot
+module github.com/teatou/telegram-bot
 
 go 1.19
 
