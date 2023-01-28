@@ -25,9 +25,15 @@ func (b *Bot) Start() error {
 
 func (b *Bot) handleUpdates(updates tgbotapi.UpdatesChannel) {
 	for update := range updates {
-		if update.Message != nil {
-			b.handleMessage(update.Message)
+		if update.Message == nil {
+			continue
 		}
+		if update.Message.IsCommand() {
+			b.handleCommand(update.Message)
+			continue
+		}
+
+		b.handleMessage(update.Message)
 	}
 }
 
@@ -36,12 +42,4 @@ func (b *Bot) initUpdatesChannel() tgbotapi.UpdatesChannel {
 	u.Timeout = 60
 
 	return b.bot.GetUpdatesChan(u)
-}
-
-func (b *Bot) handleMessage(message *tgbotapi.Message) {
-	log.Printf("[%s] %s", message.From.UserName, message.Text)
-
-	msg := tgbotapi.NewMessage(message.Chat.ID, message.Text)
-
-	b.bot.Send(msg)
 }
