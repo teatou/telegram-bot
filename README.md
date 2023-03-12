@@ -1,0 +1,1 @@
+Реализовано с помощью сервиса «API «Яндекс.Словарь» http://api.yandex.ru/dictionary

@@ -78,6 +78,7 @@ func Lookup(text []string, langs []string) (string, error) {
 			}
 		}
 	}
+	msg += "\n\nРеализовано с помощью сервиса «API «Яндекс.Словарь» http://api.yandex.ru/dictionary"
 
 	return msg, nil
 }
