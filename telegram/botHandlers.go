@@ -20,7 +20,7 @@ func (b *Bot) handleCommand(message *tgbotapi.Message) error {
 	msg := tgbotapi.NewMessage(message.Chat.ID, "Unknown command")
 	switch message.Command() {
 	case commandStart:
-		msg.Text = "Please write /help for info"
+		msg.Text = "Write any word you want to study or translate. Write /help for info"
 		_, err := b.bot.Send(msg)
 		return err
 	case commandHelp:
@@ -35,7 +35,7 @@ func (b *Bot) handleCommand(message *tgbotapi.Message) error {
 	case commandChangeLangs:
 		cmd := strings.Split(message.Text, " ")
 		if len(cmd) == 1 {
-			msg.Text = "Failed to change languages. Write '/change en-en' with such variants: en, ru, es, it, de, fr"
+			msg.Text = "Failed to change languages. Write '/change en-en' with such options: en, ru, es, it, de, fr"
 		} else {
 			b.langs = strings.Split(cmd[1], "-")
 			msg.Text = "Languages changed"
