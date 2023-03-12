@@ -7,11 +7,12 @@ import (
 )
 
 type Bot struct {
-	bot *tgbotapi.BotAPI
+	bot   *tgbotapi.BotAPI
+	langs []string
 }
 
 func NewBot(bot *tgbotapi.BotAPI) *Bot {
-	return &Bot{bot: bot}
+	return &Bot{bot: bot, langs: []string{"en", "en"}}
 }
 
 func (b *Bot) Start() error {

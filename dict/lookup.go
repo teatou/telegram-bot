@@ -34,9 +34,9 @@ type Response struct {
 	} `json:"def"`
 }
 
-func Lookup(text []string) (string, error) {
+func Lookup(text []string, langs []string) (string, error) {
 	var msg string
-	respBody := fmt.Sprintf("https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=%s&lang=ru-ru&text=%s", os.Getenv("DICT_KEY"), text[0])
+	respBody := fmt.Sprintf("https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=%s&lang=%s-%s&text=%s", os.Getenv("DICT_KEY"), langs[0], langs[1], text[0])
 	resp, err := http.Get(respBody)
 	if err != nil {
 		return "", err
@@ -55,20 +55,25 @@ func Lookup(text []string) (string, error) {
 		return "", nil
 	}
 	for _, def := range response.Def {
-		msg += fmt.Sprintf("%s (%s), значения:\n", strings.ToTitle(def.Text), def.Pos)
+		msg += fmt.Sprintf("%s (%s), definitions:\n", strings.ToTitle(def.Text), def.Pos)
 		for _, meaning := range def.Tr {
 			msg += fmt.Sprintln()
-			msg += fmt.Sprintf("* %s (%s), синонимы:\n", strings.ToTitle(meaning.Text), meaning.Pos)
-			for count, synonym := range meaning.Syn {
-				msg += synonym.Text
-				if count != len(meaning.Syn)-1 {
-					msg += ", "
+			msg += fmt.Sprintf("* %s (%s)", strings.ToTitle(meaning.Text), meaning.Pos)
+			if len(meaning.Syn) != 0 {
+				msg += ", synonyms:\n"
+				for count, synonym := range meaning.Syn {
+					msg += synonym.Text
+					if count != len(meaning.Syn)-1 {
+						msg += ", "
+					}
 				}
-			}
-			for count, meani := range meaning.Mean {
-				msg += meani.Text
-				if count != len(meaning.Syn)-1 {
-					msg += ", "
+				if len(meaning.Mean) != 0 {
+					for count, meani := range meaning.Mean {
+						msg += meani.Text
+						if count != len(meaning.Syn)-1 {
+							msg += ", "
+						}
+					}
 				}
 			}
 		}
