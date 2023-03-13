@@ -1,6 +1,6 @@
 # Dictionary Telegram Bot
 
-[Telegram бот](t.me/YandexDictBot), который выполняет роль переводчика и словаря синонимов.
+[Telegram бот](https://t.me/YandexDictBot), который выполняет роль переводчика и словаря синонимов.
 
 ![logo](./assets/demo.png)
 
